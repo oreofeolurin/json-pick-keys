@@ -3,11 +3,13 @@ node_modules
 
 
 #-----for production-------------#
-*.ts
-!*.d.ts
-tsconfig.json
+#*.ts
+#!*.d.ts
+#*.md
+#tsconfig.json
 
 
 #---------for developent --------#
-#dts
-#*.js
+*.d.ts
+*.map
+*.js

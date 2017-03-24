@@ -10,6 +10,6 @@ node_modules
 
 
 #---------for developent --------#
-lib/*.d.ts
-lib/*.map
-lib/*.js
+**/*.d.ts
+**/*.map
+**/*.js

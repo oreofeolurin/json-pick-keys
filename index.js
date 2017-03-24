@@ -8,4 +8,3 @@ function busform(opts) {
     return instance.middleWare;
 }
 module.exports = busform;
-//# sourceMappingURL=index.js.map

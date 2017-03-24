@@ -1,0 +1,37 @@
+{
+  "name": "busform",
+  "version": "0.0.1",
+  "description": "Multipaty Form middleware based on BusBoy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "busboy",
+    "form-data",
+    "multipart",
+    "multipart",
+    "upload",
+    "files",
+    "express",
+    "post"
+  ],
+  "author": "Oreofe Olurin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/oreofeolurin/busform.git"
+  },
+  "devDependencies": {
+    "@types/busboy": "0.2.3",
+    "@types/core-js": "0.9.35",
+    "@types/express": "4.0.35",
+    "@types/node": "7.0.5",
+    "@types/on-finished": "2.2.29"
+  },
+  "dependencies": {
+    "busboy": "0.2.13",
+    "express": "4.15.2",
+    "on-finished": "2.3.0"
+  }
+}

@@ -20,7 +20,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/oreofeolurin/busform.git"
+    "url": "https://github.com/oreofeolurin/busform.git"
   },
   "devDependencies": {
     "@types/busboy": "0.2.3",

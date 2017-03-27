@@ -1,6 +1,6 @@
 {
   "name": "busform",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Multipaty Form middleware based on BusBoy",
   "main": "index.js",
   "scripts": {

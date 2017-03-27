@@ -23,7 +23,7 @@ var app = express();
 
 
 app.post('/posts', busform('photo'), function (req, res, next) {
-  // the req.data will contain the a `photo` object which is the file uploaded
+  // the req.data will contain the `photo` object which is the file uploaded
   // req.data wil also contain other text fields  which were included in the form
 })
 

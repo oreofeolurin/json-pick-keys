@@ -1,4 +1,13 @@
-# BusForm Multipart Middleware based on BusBoy
+# BusForm [![npm version](https://badge.fury.io/js/busform.svg)](https://badge.fury.io/js/busform)
+ 
+Multipart Middleware based on BusBoy
+
+
+## Installation
+
+```bash
+$ npm install --save busform
+```
 
 ## License
 

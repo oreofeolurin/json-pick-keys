@@ -9,6 +9,31 @@ Multipart Middleware based on BusBoy
 $ npm install --save busform
 ```
 
+
+## Usage
+
+Busform provides you with a form `data` object containing the values of the fields in the multipart form.
+
+Examples:
+
+```javascript
+var express = require('express')
+var busform  = require('busform')
+var app = express();
+
+
+app.post('/posts', busform('photo'), function (req, res, next) {
+  // the req.data will contain the a `photo` object which is the file uploaded
+  // req.data wil also contain other text fields  which were included in the form
+})
+
+app.use(function (err, req, res, next) {
+  //the `err` object contains possible errors from busform
+  //include logic to catch necessary busform errors
+})
+
+```
+
 ## License
 
 License under the MIT License (MIT)

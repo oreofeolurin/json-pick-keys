@@ -1,7 +1,7 @@
 {
   "name": "json-pick-keys",
   "version": "0.0.2",
-  "description": "Select keys from JSON Object using space seperated values",
+  "description": "Select keys from JSON Object using space seperated values.",
   "main": "index.js",
   "scripts": {
     "build": "tsc",

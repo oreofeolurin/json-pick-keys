@@ -1,4 +1,4 @@
-# json-pick-keys [![npm version](https://badge.fury.io/js/json-pick-keys.svg)](https://badge.fury.io/js/json-pick-keys) [![Build Status](https://travis-ci.org/oreofeolurin/json-pick-keys.png?branch=master)](https://travis-ci.org/oreofeolurin/json-pick-keys)
+# json-pick-keys [![npm version](https://badge.fury.io/js/json-pick-keys.svg)](https://badge.fury.io/js/json-pick-keys) [![Build Status](https://travis-ci.org/oreofeolurin/json-pick-keys.svg?branch=master)](https://travis-ci.org/oreofeolurin/json-pick-keys)
 
 Select keys from JSON Object using space separated values.
 

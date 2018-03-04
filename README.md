@@ -1,6 +1,6 @@
 # json-pick-keys [![npm version](https://badge.fury.io/js/json-pick-keys.svg)](https://badge.fury.io/js/json-pick-keys) [![Build Status](https://travis-ci.org/oreofeolurin/json-pick-keys.svg?branch=master)](https://travis-ci.org/oreofeolurin/json-pick-keys)
 
-Select keys from JSON Object using space separated values.
+Select and rename keys from JSON Object using space separated values.
 
 
 ## Installation
@@ -12,7 +12,7 @@ $ npm install --save json-pick-keys
 
 ## Usage
 
-`json-pick-keys` helps you pick keys for inclusion and exclusion using space separated values.
+`json-pick-keys` helps you pick keys for inclusion and exclusion using space separated values. You can also rename the keys.
 
 Examples:
 
@@ -37,6 +37,16 @@ You can then use the API like this:
 pickKeys(obj, 'a b'); //  { a: 'Hello', b: 'World!'}
 pickKeys(obj, 'c.name'); //   { c: { name: 'welcome' } }
 pickKeys(obj, '-c'); //    { a: 'Hello', b: 'World!', d: [ 'is', 'json', 'pick', 'keys' ] }
+
+```
+
+
+### Renaming keys
+Use the pipe `|` symbol to rename your keys. And of-course this only works for inclusion. It would just silently fall through if used with
+exclusion.
+
+```javascript
+pickKeys(obj, 'c.font.style|fontWeight d|array'); //  { c: { font: { fontWeight: 'bold' } }, array: [ 'is', 'json', 'pick', 'keys' ] }
 
 ```
 

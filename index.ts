@@ -58,7 +58,15 @@ function pick(src, dst, field) {
         return;
     }
 
-    let _field = field[0], _src, _dst;
+    let _field = field[0],
+        transformedName =_field,
+        pipeArr = _field.split('|'),
+        _src, _dst;
+
+    if(pipeArr.length === 2) {
+        _field = pipeArr[0];
+        transformedName = pipeArr[1];
+    }
 
     if (!(_field in src)) return;
     _src = src[_field];
@@ -66,11 +74,11 @@ function pick(src, dst, field) {
     if (field.length > 1) {
         if (_field in dst) {
             // get a reference when a value already exists
-            _dst = dst[_field];
+            _dst = dst[transformedName];
         } else {
             _dst = emptyObject(_src);
             if (_dst) {
-                dst[_field] = _dst;
+                dst[transformedName] = _dst;
             }
         }
 
@@ -79,7 +87,7 @@ function pick(src, dst, field) {
         return;
     }
 
-    dst[_field] = clone(_src);
+    dst[transformedName] = clone(_src);
 }
 
 
@@ -112,6 +120,7 @@ function pickArray(src, dst, field) {
 }
 
 function only(data, fields) {
+
     if (!fields.length) return data;
 
     const _data = {};
@@ -119,6 +128,8 @@ function only(data, fields) {
     fields.forEach(function(field) {
         pick(data, _data, field.split('.'));
     });
+
+
 
     return _data;
 }
@@ -138,7 +149,14 @@ function omit(data, field) {
         return;
     }
 
-    const _field = field[0];
+    let _field = field[0],
+        pipeArr = _field.split('|');
+
+
+    if(pipeArr.length === 2) {
+        _field = pipeArr[0];
+    }
+
     if (field.length > 1) {
         omit(data[_field], field.slice(1));
         return;

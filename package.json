@@ -1,8 +1,8 @@
 {
   "name": "json-pick-keys",
-  "version": "0.0.2",
-  "description": "Select keys from JSON Object using space seperated values.",
-  "main": "index.js",
+  "version": "0.0.3",
+  "description": "Select and rename keys from JSON Object using space seperated values",
+  "main": "bin/index.js",
   "scripts": {
     "build": "tsc",
     "test": "jest"

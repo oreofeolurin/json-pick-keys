@@ -1,18 +1,22 @@
 import pickKeys from "./index";
 
 
-describe('Utils', () => {
-    const obj = {
-        a: 'Hello',
-        b: 'World!',
-        c: {
-            name: "welcome",
-            text : "Welcome To",
-            font : { family : 'Open Sans', style: 'bold'}
-        },
-        d: ['is', 'json', 'pick', 'keys']
-    };
+describe('json-pick-keys', () => {
 
+    let obj;
+    beforeAll( ()=> {
+        obj = {
+            a: 'Hello',
+            b: 'World!',
+            c: {
+                name: "welcome",
+                text : "Welcome To",
+                font : { family : 'Open Sans', style: 'bold'}
+            },
+            d: ['is', 'json', 'pick', 'keys']
+        };
+
+    });
 
     describe('inclusion', () => {
 
@@ -79,6 +83,29 @@ describe('Utils', () => {
             expect(pickedKeys['c']).toHaveProperty('text');
             expect(pickedKeys['c']['font']).not.toHaveProperty('style');
             expect(pickedKeys['c']['font']).toHaveProperty('family');
+        });
+    });
+
+    describe('rename', () => {
+
+        it('should rename a key for inclusion with the pipe symbol', () => {
+            const pickedKeys = pickKeys(obj, 'a b c.font.style|fontWeight d|array');
+            expect(pickedKeys).toHaveProperty('a');
+            expect(pickedKeys).toHaveProperty('b');
+            expect(pickedKeys).toHaveProperty('c');
+            expect(pickedKeys).not.toHaveProperty('d');
+            expect(pickedKeys).toHaveProperty('array');
+            expect(pickedKeys['c']['font']).not.toHaveProperty('style');
+            expect(pickedKeys['c']['font']).toHaveProperty('fontWeight');
+        });
+
+        it('should remove the key for exclusion with the pipe symbol', () => {
+            const pickedKeys = pickKeys(obj, '-a -c.font.style|fontWeight');
+            expect(pickedKeys).not.toHaveProperty('a');
+            expect(pickedKeys).toHaveProperty('b');
+            expect(pickedKeys).toHaveProperty('c');
+            expect(pickedKeys).toHaveProperty('d');
+            expect(pickedKeys['c']['font']).not.toHaveProperty('style');
         });
     });
 

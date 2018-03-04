@@ -53,6 +53,7 @@ function emptyObject(obj) {
 function pick(src, dst, field) {
     if (!src || !dst) return;
 
+
     if (util.isArray(src)) {
         pickArray(src, dst, field);
         return;
@@ -101,7 +102,9 @@ function pick(src, dst, field) {
 function pickArray(src, dst, field) {
     let i = 0;
 
+
     src.forEach(function(_src) {
+
         let _dst;
 
         if (dst.length > i) {
@@ -110,7 +113,7 @@ function pickArray(src, dst, field) {
         } else {
             _dst = emptyObject(_src);
             if (_dst) {
-                dst.push(_dst);
+                 dst.push(_dst);
                 i++;
             }
         }
@@ -123,7 +126,8 @@ function only(data, fields) {
 
     if (!fields.length) return data;
 
-    const _data = {};
+    const _data = util.isArray(data) ? [] :  {};
+
 
     fields.forEach(function(field) {
         pick(data, _data, field.split('.'));

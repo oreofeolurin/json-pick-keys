@@ -2,5 +2,6 @@ tsconfig.json
 .gitignore
 .idea
 *.ts
-*.spec.*
+*.spec.d.ts
+*.spec.js
 !*d.ts

@@ -70,6 +70,27 @@ pickKeys(obj, {'c.font.style|fontWeight' : 1}); //  { c: { font: { fontWeight: '
 
 ```
 
+### Having Data as array
+`json-pick-keys` works the same for arrays, so chill, no need to worry.
+
+
+```javascript
+
+var arr = [{
+        a: 'Hello',
+        b: 'World!',
+        c: {
+            name: "welcome",
+            text : "Welcome To",
+            font : { family : 'Open Sans', style: 'bold'}
+        },
+        d: ['is', 'json', 'pick', 'keys']
+    }];
+
+pickKeys(arr, 'a b'); //  [{ a: 'Hello', b: 'World!'}]
+
+```
+
 ## Note
 Don't use inclusion and exclusion together, but really, why would you wanna do that?
 

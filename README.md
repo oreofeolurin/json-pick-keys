@@ -1,6 +1,6 @@
 # json-pick-keys [![npm version](https://badge.fury.io/js/json-pick-keys.svg)](https://badge.fury.io/js/json-pick-keys) [![Build Status](https://travis-ci.org/oreofeolurin/json-pick-keys.svg?branch=master)](https://travis-ci.org/oreofeolurin/json-pick-keys)
 
-Select and rename keys from JSON Object using space separated values.
+Select keys from JSON Object for inclusion or exclusion.
 
 
 ## Installation
@@ -47,6 +47,26 @@ exclusion.
 
 ```javascript
 pickKeys(obj, 'c.font.style|fontWeight d|array'); //  { c: { font: { fontWeight: 'bold' } }, array: [ 'is', 'json', 'pick', 'keys' ] }
+
+```
+
+### Using the Object Syntax
+You can supply an object instead of a space separated values. This might come in handing for dynamic cases.
+
+```javascript
+// for inclusion, these are equivalent
+pickKeys(obj, 'a b'); //  { a: 'Hello', b: 'World!'}
+pickKeys(obj, {a : 1, b : 1}); //  { a: 'Hello', b: 'World!'}
+
+
+// for exclusion, these are equivalent
+pickKeys(obj, '-c'); //    { a: 'Hello', b: 'World!', d: [ 'is', 'json', 'pick', 'keys' ] }
+pickKeys(obj, {c : 0}); //    { a: 'Hello', b: 'World!', d: [ 'is', 'json', 'pick', 'keys' ] }
+
+
+// for renaming, these are equivalent
+pickKeys(obj, 'c.font.style|fontWeight'); //  { c: { font: { fontWeight: 'bold' } } }
+pickKeys(obj, {'c.font.style|fontWeight' : 1}); //  { c: { font: { fontWeight: 'bold' } } }
 
 ```
 

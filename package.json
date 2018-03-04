@@ -1,7 +1,7 @@
 {
   "name": "json-pick-keys",
   "version": "0.0.3",
-  "description": "Select and rename keys from JSON Object using space seperated values",
+  "description": "Select keys from JSON Object for inclusion or exclusion",
   "main": "bin/index.js",
   "scripts": {
     "build": "tsc",
@@ -14,7 +14,10 @@
     "select",
     "inclusion",
     "exclusion",
-    "object"
+    "object",
+    "renaming",
+    "pipe",
+    "rename"
   ],
   "author": "Oreofe Olurin",
   "license": "MIT",

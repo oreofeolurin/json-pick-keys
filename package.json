@@ -4,7 +4,7 @@
   "description": "Select keys from JSON Object using space seperated values",
   "main": "index.js",
   "scripts": {
-    "postinstall": "tsc",
+    "build": "tsc",
     "test": "jest"
   },
   "keywords": [

@@ -15,7 +15,7 @@ function normalizeFields(fields) {
     } else if ('string' === typeof fields) {
         let _fields = {};
 
-        fields.split(/\s+/).forEach(function(field) {
+        fields.split(/\s+/).forEach(function (field) {
             if (!field) return;
 
             const include = +(field[0] !== '-');
@@ -54,17 +54,17 @@ function pick(src, dst, field) {
     if (!src || !dst) return;
 
 
-    if (util.isArray(src)) {
+    if (Array.isArray(src)) {
         pickArray(src, dst, field);
         return;
     }
 
     let _field = field[0],
-        transformedName =_field,
+        transformedName = _field,
         pipeArr = _field.split('|'),
         _src, _dst;
 
-    if(pipeArr.length === 2) {
+    if (pipeArr.length === 2) {
         _field = pipeArr[0];
         transformedName = pipeArr[1];
     }
@@ -103,7 +103,7 @@ function pickArray(src, dst, field) {
     let i = 0;
 
 
-    src.forEach(function(_src) {
+    src.forEach(function (_src) {
 
         let _dst;
 
@@ -113,7 +113,7 @@ function pickArray(src, dst, field) {
         } else {
             _dst = emptyObject(_src);
             if (_dst) {
-                 dst.push(_dst);
+                dst.push(_dst);
                 i++;
             }
         }
@@ -126,14 +126,21 @@ function only(data, fields) {
 
     if (!fields.length) return data;
 
-    const _data = util.isArray(data) ? [] :  {};
+    const _data = Array.isArray(data) ? [] : {};
+    const _fields = fields.filter(v => v !== '...');
 
-
-    fields.forEach(function(field) {
+    _fields.forEach(function (field) {
         pick(data, _data, field.split('.'));
     });
 
 
+    /**
+     * TODO: make spread work for array
+     */
+    if (fields.includes('...') && !Array.isArray(data)) {
+        const untouched = except(data, _fields);
+        return { ...untouched, ..._data };
+    }
 
     return _data;
 }
@@ -146,8 +153,8 @@ function only(data, fields) {
 function omit(data, field) {
     if (!data) return;
 
-    if (util.isArray(data)) {
-        data.forEach(function(_data) {
+    if (Array.isArray(data)) {
+        data.forEach(function (_data) {
             omit(_data, field);
         });
         return;
@@ -157,7 +164,7 @@ function omit(data, field) {
         pipeArr = _field.split('|');
 
 
-    if(pipeArr.length === 2) {
+    if (pipeArr.length === 2) {
         _field = pipeArr[0];
     }
 
@@ -174,12 +181,13 @@ function omit(data, field) {
 function except(data, fields) {
     const _data = clone(data);
 
-    fields.forEach(function(field) {
+    fields.forEach(function (field) {
         omit(_data, field.split('.'));
     });
 
     return _data;
 }
+
 
 export default function pickKeys(data, fields) {
     if (!fields) return data;
@@ -189,7 +197,7 @@ export default function pickKeys(data, fields) {
 
     fields = normalizeFields(fields);
 
-    Object.keys(fields).forEach(function(field) {
+    Object.keys(fields).forEach(function (field) {
         (fields[field] ? inclusive : exclusive).push(field);
     });
 

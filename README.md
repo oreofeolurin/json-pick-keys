@@ -50,6 +50,15 @@ pickKeys(obj, 'c.font.style|fontWeight d|array'); //  { c: { font: { fontWeight:
 
 ```
 
+
+### Using Spead Operator with Renaming keys
+Using the pipe  `|` symbol to rename your key, you can also include other keys. This only works for inclusion and arrays are not supported. It would just silently fall through if used with an exclusion or array.
+
+```javascript
+pickKeys(obj, '... c.font.style|fontWeight d|array'); //  {a: 'Hello', b: 'World!',  c: { font: { fontWeight: 'bold' } }, array: [ 'is', 'json', 'pick', 'keys' ] }
+
+```
+
 ### Using the Object Syntax
 You can supply an object instead of a space separated values. This might come in handing for dynamic cases.
 

@@ -30,6 +30,14 @@ describe('Space separated syntax', () => {
             expect(pickedKeys).not.toHaveProperty('d');
         });
 
+        it('should pick keys picked for inclusion and others with spread operator', function () {
+            const pickedKeys = pickKeys(obj, '... a b');
+            expect(pickedKeys).toHaveProperty('a');
+            expect(pickedKeys).toHaveProperty('b');
+            expect(pickedKeys).toHaveProperty('c');
+            expect(pickedKeys).toHaveProperty('d');
+        });
+
         it('should deep pick keys picked for inclusion', () => {
             const pickedKeys = pickKeys(obj, 'c.font.style');
             expect(pickedKeys).toHaveProperty('c');
@@ -102,6 +110,19 @@ describe('Space separated syntax', () => {
             expect(pickedKeys['c']['font']).toHaveProperty('fontWeight');
         });
 
+        it('should rename a key for inclusion with the pipe symbol and return other element with spread operator', () => {
+            const pickedKeys = pickKeys(obj, '... b|be c.font.style|fontWeight d|array');
+            expect(pickedKeys).toHaveProperty('a');
+            expect(pickedKeys).not.toHaveProperty('b');
+            expect(pickedKeys).toHaveProperty('be');
+            expect(pickedKeys).toHaveProperty('c');
+            expect(pickedKeys).not.toHaveProperty('d');
+            expect(pickedKeys).toHaveProperty('array');
+            expect(pickedKeys['c']['font']).not.toHaveProperty('style');
+            expect(pickedKeys['c']['font']).toHaveProperty('fontWeight');
+        });        
+
+
         it('should remove the key for exclusion with the pipe symbol', () => {
             const pickedKeys = pickKeys(obj, '-a -c.font.style|fontWeight');
             expect(pickedKeys).not.toHaveProperty('a');
@@ -113,6 +134,8 @@ describe('Space separated syntax', () => {
     });
 
 });
+
+
 
 describe('Object syntax', () => {
 
@@ -226,7 +249,6 @@ describe('Object syntax', () => {
 });
 
 
-
 describe('Array Data', () => {
 
     let obj;
@@ -325,6 +347,18 @@ describe('Array Data', () => {
             expect(pickedKeys['c']['font']).not.toHaveProperty('style');
             expect(pickedKeys['c']['font']).toHaveProperty('fontWeight');
         });
+
+        it('should rename a key for inclusion with the pipe symbol and return other element with spread operator', () => {
+            const pickedKeys = pickKeys(obj, '... b|be c.font.style|fontWeight d|array')[0];
+            expect(pickedKeys).not.toHaveProperty('a'); // expect(pickedKeys).toHaveProperty('a');
+            expect(pickedKeys).not.toHaveProperty('b');
+            expect(pickedKeys).toHaveProperty('be');
+            expect(pickedKeys).toHaveProperty('c');
+            expect(pickedKeys).not.toHaveProperty('d');
+            expect(pickedKeys).toHaveProperty('array');
+            expect(pickedKeys['c']['font']).not.toHaveProperty('style');
+            expect(pickedKeys['c']['font']).toHaveProperty('fontWeight');
+        });        
 
         it('should remove the key for exclusion with the pipe symbol', () => {
             const pickedKeys = pickKeys(obj, '-a -c.font.style|fontWeight')[0];

@@ -12,7 +12,7 @@ $ npm install --save json-pick-keys
 
 ## Usage
 
-`json-pick-keys` helps you pick keys for inclusion and exclusion using space separated values. You can also rename the keys.
+`json-pick-keys` helps you pick keys for inclusion and exclusion using space separated values. You can also rename and redact the keys.
 
 Examples:
 
@@ -50,13 +50,20 @@ pickKeys(obj, 'c.font.style|fontWeight d|array'); //  { c: { font: { fontWeight:
 
 ```
 
-
-### Using Spead Operator with Renaming keys
+### Using Spread Operator with Renaming keys
 Using the pipe  `|` symbol to rename your key, you can also include other keys. This only works for inclusion and arrays are not supported. It would just silently fall through if used with an exclusion or array.
 
 ```javascript
 pickKeys(obj, '... c.font.style|fontWeight d|array'); //  {a: 'Hello', b: 'World!',  c: { font: { fontWeight: 'bold' } }, array: [ 'is', 'json', 'pick', 'keys' ] }
 
+```
+
+### Redacting keys
+Use the asterisk `*` symbol to redact your keys. You can also passing an option to change the redacted string, defaults to `*****`.
+
+```javascript
+pickKeys(obj, 'a *b'); //  { a: 'Hello', b: '*****'}
+pickKeys(obj, 'a *b', { redactString : '[REDACTED]'}); //  { a: 'Hello', b: '[REDACTED]'}
 ```
 
 ### Using the Object Syntax
@@ -76,6 +83,11 @@ pickKeys(obj, {c : 0}); //    { a: 'Hello', b: 'World!', d: [ 'is', 'json', 'pic
 // for renaming, these are equivalent
 pickKeys(obj, 'c.font.style|fontWeight'); //  { c: { font: { fontWeight: 'bold' } } }
 pickKeys(obj, {'c.font.style|fontWeight' : 1}); //  { c: { font: { fontWeight: 'bold' } } }
+
+
+// for redacting, these are equivalent
+pickKeys(obj, 'a *b'); //   { a: 'Hello', b: '*****'}
+pickKeys(obj, {'a' : 1, `b` : 2}); //   { a: 'Hello', b: '*****'}
 
 ```
 

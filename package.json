@@ -1,6 +1,6 @@
 {
   "name": "json-pick-keys",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Select keys from JSON Object for inclusion or exclusion",
   "main": "bin/index.js",
   "scripts": {

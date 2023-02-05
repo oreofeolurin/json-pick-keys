@@ -1,6 +1,13 @@
 import * as util from "util";
 import * as clone from "clone";
 
+interface PickKeysOptions {
+    redactString: string
+}
+
+const DEFAULT_OPTS = { redactString: '*****' }
+const PICK_KEY_MAP = { "-": 0, "*": 2 };
+
 /**
  * Convert string formatted fields to object formatted ones
  *
@@ -18,9 +25,9 @@ function normalizeFields(fields) {
         fields.split(/\s+/).forEach(function (field) {
             if (!field) return;
 
-            const include = +(field[0] !== '-');
+            const include = PICK_KEY_MAP[field[0]] ?? 1;
 
-            field = include ? field : field.substring(1);
+            field = include == 1 ? field : field.substring(1);
             _fields[field] = include;
         });
         return _fields;
@@ -50,12 +57,11 @@ function emptyObject(obj) {
  * @param dst
  * @param field
  */
-function pick(src, dst, field) {
+function pick(src, dst, field: string[], redactString?: string) {
     if (!src || !dst) return;
 
-
     if (Array.isArray(src)) {
-        pickArray(src, dst, field);
+        pickArray(src, dst, field, redactString);
         return;
     }
 
@@ -65,7 +71,7 @@ function pick(src, dst, field) {
         _src, _dst;
 
     if (pipeArr.length === 2) {
-        _field = pipeArr[0];
+        _field = redactString ? pipeArr[1] : pipeArr[0]; // if redaction, only func would have already renamed 
         transformedName = pipeArr[1];
     }
 
@@ -84,11 +90,11 @@ function pick(src, dst, field) {
         }
 
         // continue to search nested objects
-        pick(_src, _dst, field.slice(1));
+        pick(_src, _dst, field.slice(1), redactString);
         return;
     }
 
-    dst[transformedName] = clone(_src);
+    dst[transformedName] = redactString ? redactString : clone(_src);
 }
 
 
@@ -99,7 +105,7 @@ function pick(src, dst, field) {
  * @param dst
  * @param field
  */
-function pickArray(src, dst, field) {
+function pickArray(src, dst, field, redactString?: string)  {
     let i = 0;
 
 
@@ -118,7 +124,7 @@ function pickArray(src, dst, field) {
             }
         }
 
-        pick(_src, _dst, field);
+        pick(_src, _dst, field, redactString);
     });
 }
 
@@ -143,6 +149,19 @@ function only(data, fields) {
     }
 
     return _data;
+}
+
+function redact(data: any, fields: string[], redactStr: string) {
+
+    if (!fields.length) return data;
+
+    const _fields = fields.filter(v => v !== '...');
+
+    _fields.forEach(function (field) {
+        pick(data, data, field.split('.'), redactStr);
+    });
+
+    return data;
 }
 
 /**
@@ -189,18 +208,30 @@ function except(data, fields) {
 }
 
 
-export default function pickKeys(data, fields) {
-    if (!fields) return data;
+export default function pickKeys(data: any, spaceSeparatedStr: string | Record<string, 0 | 1 | 2>, opts?: PickKeysOptions) {
+    if (!spaceSeparatedStr) return data;
+    opts = opts ?? DEFAULT_OPTS;
 
-    const inclusive = [],
-        exclusive = [];
+    const inclusive = [], exclusive = [], redaction = [];
 
-    fields = normalizeFields(fields);
+    const fields = normalizeFields(spaceSeparatedStr);
 
     Object.keys(fields).forEach(function (field) {
-        (fields[field] ? inclusive : exclusive).push(field);
+
+        if (fields[field] > 0) {
+            inclusive.push(field);
+        }
+
+        if (fields[field] == 0) {
+            exclusive.push(field);
+        }
+
+        if (fields[field] == 2) {
+            redaction.push(field);
+        }
     });
 
     data = inclusive.length ? only(data, inclusive) : data;
-    return exclusive.length ? except(data, exclusive) : data;
+    data = redaction.length ? redact(data, redaction, opts.redactString) : data;
+    return  exclusive.length ? except(data, exclusive) : data;
 }

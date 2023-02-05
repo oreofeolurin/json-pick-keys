@@ -26,7 +26,8 @@
     "url": "https://github.com/oreofeolurin/json-pick-keys.git"
   },
   "dependencies": {
-    "clone": "^2.1.2"
+    "clone": "^2.1.2",
+    "lodash.merge": "^4.6.2"
   },
   "devDependencies": {
     "@types/jest": "^29.4.0",

@@ -1,8 +1,6 @@
 import pickKeys from "./index";
 
 
-
-
 describe('Space separated syntax', () => {
 
     let obj;
@@ -19,7 +17,6 @@ describe('Space separated syntax', () => {
         };
 
     });
-
 
 
     describe('inclusion', () => {
@@ -54,7 +51,7 @@ describe('Space separated syntax', () => {
 
     describe('exclusion', () => {
 
-        it('should deselect keys picked for exclusion', () => {
+       it('should deselect keys picked for exclusion', () => {
             const pickedKeys = pickKeys(obj, '-a -c');
             expect(pickedKeys).not.toHaveProperty('a');
             expect(pickedKeys).toHaveProperty('b');
@@ -109,6 +106,8 @@ describe('Space separated syntax', () => {
             expect(pickedKeys).toHaveProperty('c');
             expect(pickedKeys).not.toHaveProperty('d');
             expect(pickedKeys).toHaveProperty('array');
+            expect(pickedKeys['c']).toHaveProperty('name');
+            expect(pickedKeys['c']).toHaveProperty('text');
             expect(pickedKeys['c']['font']).not.toHaveProperty('style');
             expect(pickedKeys['c']['font']).toHaveProperty('fontWeight');
         });
@@ -136,9 +135,11 @@ describe('Space separated syntax', () => {
         });
     });
 
+
+   
     describe('redact', () => {
 
-        it('should redact keys picked for inclusion', () => {
+     it('should redact keys picked for inclusion', () => {
             const pickedKeys = pickKeys(obj, 'a -b *c');
             expect(pickedKeys).toHaveProperty('a');
             expect(pickedKeys).not.toHaveProperty('a', '*****');
@@ -165,12 +166,16 @@ describe('Space separated syntax', () => {
             expect(pickedKeys['c']['font']).not.toHaveProperty('family');
         });
 
+    
 
         it('should redact keys and pick others with spread operator', function () {
-            const pickedKeys = pickKeys(obj, '... a *b');
+            const pickedKeys = pickKeys(obj, '... *c.font.family');
             expect(pickedKeys).toHaveProperty('a');
-            expect(pickedKeys).toHaveProperty('b', '*****');
-            expect(pickedKeys).toHaveProperty('c');
+            expect(pickedKeys).toHaveProperty('b');
+            expect(pickedKeys['c']).toHaveProperty('name');
+            expect(pickedKeys['c']).toHaveProperty('text');
+            expect(pickedKeys['c']).toHaveProperty('font');
+            expect(pickedKeys['c']['font']).toHaveProperty('style');
             expect(pickedKeys).toHaveProperty('d');
         });
 
@@ -180,9 +185,6 @@ describe('Space separated syntax', () => {
 
 
 });
-
-
-
 
 
 describe('Object syntax', () => {

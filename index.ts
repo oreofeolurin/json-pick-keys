@@ -1,5 +1,6 @@
-import * as util from "util";
-import * as clone from "clone";
+import * as util from 'util';
+import * as clone from 'clone';
+import * as merge from 'lodash.merge';
 
 interface PickKeysOptions {
     redactString: string
@@ -105,7 +106,7 @@ function pick(src, dst, field: string[], redactString?: string) {
  * @param dst
  * @param field
  */
-function pickArray(src, dst, field, redactString?: string)  {
+function pickArray(src, dst, field, redactString?: string) {
     let i = 0;
 
 
@@ -143,9 +144,9 @@ function only(data, fields) {
     /**
      * TODO: make spread work for array
      */
-    if (fields.includes('...') && !Array.isArray(data)) {
+    if ((fields.includes('...') || fields.find(v => v.includes('|'))) && !Array.isArray(data)) {
         const untouched = except(data, _fields);
-        return { ...untouched, ..._data };
+        return merge(untouched, _data);
     }
 
     return _data;
@@ -233,5 +234,6 @@ export default function pickKeys(data: any, spaceSeparatedStr: string | Record<s
 
     data = inclusive.length ? only(data, inclusive) : data;
     data = redaction.length ? redact(data, redaction, opts.redactString) : data;
-    return  exclusive.length ? except(data, exclusive) : data;
+    const v = exclusive.length ? except(data, exclusive) : data;
+    return v;
 }
